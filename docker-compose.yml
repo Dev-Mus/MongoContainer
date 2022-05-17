@@ -1,0 +1,43 @@
+version: "3.4"
+services:
+  # #####################################################################################################
+  # mongo cluster
+  mongo:
+    container_name: mongoDb
+    # image: mongo:latest
+    image: mongo:4.2 
+    restart: always
+    volumes:
+      - ${MONGO_DATA}:/data/db
+      - ${MONGO_DUMP}:/dump
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+    #   MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "27017:27017"
+    networks:
+      - test-network
+
+# #####################################################################################################
+networks:
+  test-network:
+    name: ${NETWORK_NAME}
+    driver: bridge
+
+# run build
+# docker-compose -f docker-compose.yml up -d --build
+
+# stop and delete containers 
+# docker-compose -f docker-compose.yml down
+
+# restart only container
+# docker-compose -f docker-compose.yml restart -t 0 container
+
+# exec container (exec terminal of contaniner)
+# docker exec -it container_id /bin/sh
+
+# clone of database (mongodb)
+# mongodump --uri=mongodb+srv://user:password@host/db 
+
+# restore data of database (mongodb)
+# mongorestore -u user -p password dump
